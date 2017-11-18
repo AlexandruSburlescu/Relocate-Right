@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="css/main.css" />
 <link href="https://fonts.googleapis.com/css?family=Lato|Montserrat|Open+Sans|Roboto" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/myscripts.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfLvR5-Iyr-gqqUjWWBbP4FcNh3D5ZKFs&callback=myMap"></script>
+
     <style>
         body {
                 background-image: url("img/background.jpg")!important;
