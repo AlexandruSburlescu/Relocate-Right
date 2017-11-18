@@ -1,5 +1,13 @@
-<?
-require('database.php');
+<?php
+
+$sql1 = 'SELECT property.* image.image_url FROM property LEFT JOIN image ON property.image_id = image.id WHERE property.star = 1';
+$rec = $conn->prepare($sql1);
+$rec->execute();
+$res = $rec->fetchAll(PDO::FETCH_OBJ);
+$properties = $res;
+
+if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings database is empty. Please star at least one.';}
+
 ?>
 
 <div class="col-6">
