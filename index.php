@@ -31,12 +31,12 @@ if( isset($_SESSION['user_id']) ) {
 </head>
 <body>
 <?php
-        require('header.php');
+      require('header.php');
       require('body.php');
       require('footer.php'); ?>
 
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="js/myscripts.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfLvR5-Iyr-gqqUjWWBbP4FcNh3D5ZKFs&callback=myMap"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfLvR5-Iyr-gqqUjWWBbP4FcNh3D5ZKFs&callback=myMap"></script>
 </body>
 </html>

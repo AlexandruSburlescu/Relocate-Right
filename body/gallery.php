@@ -1,18 +1,51 @@
 <?php
+require 'database.php';
+try{
+    $sql1 = 'SELECT *
+             FROM property_image
+             LEFT JOIN images ON images.image_id = property_image.image_id
+             LEFT JOIN properties ON properties.property_id = property_image.property_id 
+             WHERE properties.star = 1';
 
-$sql1 = 'SELECT property.* image.image_url FROM property LEFT JOIN image ON property.image_id = image.id WHERE property.star = 1';
-$rec = $conn->prepare($sql1);
+$rec = $connection->prepare($sql1);
 $rec->execute();
-$res = $rec->fetchAll(PDO::FETCH_OBJ);
-$properties = $res;
+$res = $rec->fetchAll(PDO::FETCH_ASSOC);
+$images = $res;
+
+
+    $sql2 = 'SELECT *
+             FROM properties
+             WHERE properties.star = 1';
+
+    $rec = $connection->prepare($sql2);
+    $rec->execute();
+    $res = $rec->fetchAll(PDO::FETCH_ASSOC);
+    $properties = $res;
+}
+
+catch(Exception $e)
+{
+    die($e);
+}
 
 if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings database is empty. Please star at least one.';}
+
+
 
 ?>
 
 <div class="col-6">
-    <? foreach ($property as $properties) :?>
-    <div class = "row" id="<?=$property->id?>">
+    <?php foreach ($properties as $property) {
+
+        //find out the number of images needed to display in the thumbnails section
+        $thumbnails =0 ;
+        foreach($images as $image) {
+            if ($image['property_id'] == $property['property_id'] && $image['main'] != '1') {
+                $thumbnails++;
+            }
+        }
+        ?>
+    <div class = "row" id="<?=$property['property_id']?>">
         <div class= "gallery fade">
             <div class = "row">
                 <div class="galleryHead">Our current listings</div>
@@ -22,23 +55,40 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
                 <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
                 </div>
                 <div class ="col-8">
-                <img src="<?=$property->image_url?>" style="width:100%">
+                    <?php
+
+                        foreach($images as $image)  {
+                            if($image['property_id'] == $property['property_id'] && $image['main'] == '1' ) { ?>
+                            <img src="<?=$image['image_url']?>" style="width:100%">
+                            <?php  } ?>
+                        <?php  } ?>
                 </div>
                 <div class = "col-2" style = "float:right">
                 <a class="next" onclick="nextSlide(1)">&#10095;</a>
                 </div>
             </div>
             <div class = "row">
-                <div class="galleryText">Caption Text</div>
+
+                <?php
+                foreach($images as $image)  {
+                    if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
+
+                        <a href ="<?=$image['image_url']?>">
+                            <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;height:<?=100/$thumbnails?>%">
+                        </a>
+
+                    <?php  } ?>
+                <?php  } ?>
+
             </div>
-            <div class ="row">
-                <div style="text-align:center">
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                </div>
+            <div class = "row">
+                <div class="galleryText"><?=$property['description']?></div>
+                <div class = "galleryText">Price: <?=$property['price']?></div>
             </div>
+
         </div>
-    </div>
-    <? endforeach; ?>
+     </div>
+    <?php } ?>
 </div>
 
 
