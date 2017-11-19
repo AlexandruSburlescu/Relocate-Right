@@ -48,7 +48,7 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
     <div class = "row" id="<?=$property['property_id']?>">
         <div class= "gallery fade">
             <div class = "row">
-                <div class="galleryHead">Our current listings</div>
+                <div class="galleryHead">Our top listings</div>
             </div>
             <div class = "row">
                 <div class = "col-2" style ="float:left">
@@ -74,7 +74,7 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
                     if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
 
                         <a href ="<?=$image['image_url']?>">
-                            <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;height:<?=100/$thumbnails?>%">
+                            <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;max-height:<?=100/$thumbnails?>%">
                         </a>
 
                     <?php  } ?>
@@ -83,7 +83,7 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
             </div>
             <div class = "row">
                 <div class="galleryText"><?=$property['description']?></div>
-                <div class = "galleryText">Price: <?=$property['price']?></div>
+                <div class = "galleryText">Price: <?=$property['price']?>&pound</div>
             </div>
 
         </div>
