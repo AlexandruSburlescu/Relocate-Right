@@ -109,7 +109,7 @@ endif;
 			<li class="scroll"><a href="register.php">Register</a></li> 
 			<?php }  else { ?>	
 			<li class="scroll"><a href="playlist.php">Your Music</a></li> 
-            <li class="scroll"><a href="logout.php">Logout</a></li> <?php } ?>		
+            <li class="scroll"><a href="../users/logout.php">Logout</a></li> <?php } ?>
             <li class="scroll"><a href="index.php#contact">Contact</a></li>       
           </ul>
         </div>

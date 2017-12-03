@@ -1,21 +1,5 @@
 <?php
-
-//session_start();
-
-require 'database.php';
-/*$user = NULL;
-
-if( isset($_SESSION['user_id']) ) {
-
-    $sql1 = 'SELECT id, name FROM users WHERE id = :id';
-    $records = $conn->prepare($sql1);
-    $records->bindParam(':id', $_SESSION['user_id']);
-    $records->execute();
-    $results = $records->fetch(PDO::FETCH_ASSOC);
-    if (count($results) > 0) {
-        $user = $results;
-    }
-}*/
+session_start();
 
 ?>
 

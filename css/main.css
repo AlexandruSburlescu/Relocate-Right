@@ -1,13 +1,23 @@
 * {
     box-sizing: border-box;
-
-
 }
+
+.container {
+    border: 1px solid #f0f8ff ;
+    padding: 10px 10px 10px 10px;
+    margin-top:10px;
+    margin-bottom:10px;
+    max-width:100%;
+    background-color: rgba(113, 183, 189, 0.8);
+    position: relative;
+}
+
 .row::after {
     content: "";
     clear: both;
     display: table;
 }
+
 [class*="col-"] {
     float: left;
     border: 0px solid #f0f8ff ;
@@ -63,13 +73,7 @@ p {
     font-size: 1.25em; 
 }
 
-
-.feature {
-    box-shadow: inset 0 0 0 25em rgba(113, 183, 189, 0.6);
-}
-
-
-#footer { 
+#footer {
             font-size: .75em;
             font-style: italic;
 
@@ -84,11 +88,6 @@ p {
 
 .header {
             padding: 1px;
-
-
-
-
-
 }
 
 #logo {
@@ -113,7 +112,17 @@ p {
     max-width:100%;
     max-height:100%;
     font-size:2em;
-    box-shadow: inset 0 0 0 25em rgba(113, 183, 189, 0.4);
+}
+.buttons{
+
+    display: inline;
+    align-content: flex-end;
+    font-weight: bold;
+    padding:0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
 }
 
 #left-menu {
@@ -144,7 +153,6 @@ p {
 }
 
 #left-menu li a:hover {
-    box-shadow: inset 0 0 0 25em rgba(141, 43, 48, 0.4);
     color: rgba(255, 255, 255, 1);
 }
 
@@ -167,9 +175,11 @@ a.button:hover{
 }
 
 #map {
-    height: 300px;
-    width:100%;
-    margin-left: 10px;
+    position: absolute; top: 10px; right: 5px; bottom: 10px; left: 5px;
+}
+.map {
+    height: 400px;
+    position : relative;
 }
 
 a.prev, a.next {
@@ -185,6 +195,40 @@ a.prev, a.next {
     border-radius: 0 3px 3px 0;
 }
 
+div.data-form{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 5px 5px 5px;
+}
+
+div.form-control{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid rgba(41, 42, 189, 0.4);
+    border-radius: 4px;
+}
+div.control-label{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+.btn-submit {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    float: right;
+}
 @media all and (max-width:30em){
         a.button{
         color:rgb(255,255,255);
@@ -195,27 +239,21 @@ a.prev, a.next {
 
 div .lreel{
         border: 1px solid #f0f8ff ;
-        margin: 10px 10px 10px 10px;
-        max-width:90%;
+        padding: 10px 5px 10px 10px;
+        max-width:99%;
         float: left!important;
-        box-shadow: inset 0 0 0 25em rgba(113, 183, 189, 0.4);
       }
 
 div .rreel {
         border: 1px solid #f0f8ff ;
-        margin: 10px 10px 10px 10px;
-        max-width:90%;
+        padding: 10px 10px 10px 5px;
+        max-width:99%;
         float:left!important;
-        box-shadow: inset 0 0 0 25em rgba(113, 183, 189, 0.4);
-
-}
+          }
 div .gallery {
-        border: 1px solid #f0f8ff ;
-        margin-top:10px;
-        margin-bottom:10px;
-
-        max-width:100%;
-        box-shadow: inset 0 0 0 25em rgba(113, 183, 189, 0.4);
+    border: 1px solid #f0f8ff;
+    padding: 10px 5px 10px 5px;
+    max-width: 100%;
 }
 
 div .rreel li{

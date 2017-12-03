@@ -1,40 +1,52 @@
 <?php
 
 session_start();
-$date = date("Y-m-d H:i:s");
+
 if( isset($_SESSION['user_id']) ){
 	header("Location: index.php");
 }
 
 require 'database.php';
 
-if(!empty($_POST['email']) && !empty($_POST['password'])):
-	//select the user from the table based on the email entered in the form
-	$stat = "SELECT memberID,email,password FROM members WHERE email = :email";
-	$records = $conn->prepare($stat);
-	$records->bindParam(':email', $_POST['email']);
-	$records->execute();
-	$results = $records->fetch(PDO::FETCH_ASSOC);
+if (!empty($_POST['password'])&& !empty($_POST['confirm_password']) ) {
+$verify = $_POST['password'] == $_POST['confirm_password'];
 
-	$_SESSION['message'] = '';
-	//chech if the hashed password and the password in the form are a match
-	$verify = password_verify($_POST['password'],$results['password']);
-	//if the values match then modify the last login to the current date
-	if(count($results) > 0 && $verify ){
-        $sql = 'UPDATE members SET lastlogin = :date WHERE memberID = :id';
-		$rec = $conn->prepare($sql);
-		$rec->bindParam(':date', $date);
-		$rec->bindParam(':id', $results['memberID']);
-		$rec->execute();
-		$_SESSION['user_id'] = $results['memberID'];
-        header("Location: index.php");
 
-	} else {
-		$_SESSION['message'] = 'Sorry, those credentials do not match';
-	}
+
+if(!empty($_POST['email']) && $verify && !empty($_POST['fname'])&& !empty($_POST['lname'])):
+
+		$message = '';
+		
+		$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+		$name = $_POST['fname'] . " " .$_POST['lname'];
+	
+	// Enter the new user in the database
+	$sql = "INSERT INTO members (email, password, name) VALUES (:email, :password, :name)";
+	// Check if Email exists in database
+	$sql2 = "SELECT email FROM members WHERE email = :email";
+	
+	
+	$stmt = $conn->prepare($sql);
+	$stmt->bindParam(':email', $_POST['email']);
+	$stmt->bindParam(':password', $hash);
+	$stmt->bindParam(':name', $name);
+	
+    $echeck = $conn->prepare($sql2);
+	$echeck->bindParam(':email', $_POST['email']);
+	
+	$echeck->execute();
+	$fcheck = $echeck->fetchAll(PDO::FETCH_ASSOC);
+	
+	// if User does not exist it inserts it into the database	
+	if( !count($fcheck) > 0 ){
+		$stmt->execute();
+		$message = 'Successfully created new user';
+    } else {
+		$message = 'Username and/or password are incorrect or already in use.';
+    }
 
 endif;
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,8 +76,16 @@ endif;
 
 <body>
 
-<header class="container">
-<div class="main-nav">
+  <!--.preloader-->
+  <div class="preloader"> <i class="fa fa-circle-o-notch fa-spin"></i></div>
+  <!--/.preloader-->
+
+  <header id="home">
+
+  </header><!--/#home-->
+ 
+  <section id="allmusic" class="parallax">
+      <div class="main-nav">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -89,58 +109,63 @@ endif;
 			<li class="scroll"><a href="register.php">Register</a></li> 
 			<?php }  else { ?>	
 			<li class="scroll"><a href="playlist.php">Your Music</a></li> 
-            <li class="scroll"><a href="../users/logout.php">Logout</a></li> <?php } ?>
+            <li class="scroll"><a href="logout.php">Logout</a></li> <?php } ?>		
             <li class="scroll"><a href="index.php#contact">Contact</a></li>       
           </ul>
         </div>
       </div>
     </div><!--/#main-nav-->
-</header>
-<section id="allmusic" class="parallax">
-      <div class="container">
-      <div class="row">
-        <div class="heading text-center col-sm-8 col-sm-offset-2 wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-             <h2>Our music, Your way.</h2>
-			<?php if( !isset($_SESSION['user_id']) ) {  ?>   
-            <p> Please login here using your email and password.</p>
-			<?php } else { ?>
-			<p> You are already logged in. Select your favourite music and add it to your personalised playlist.</p> <?php } ?>
-			</div>
-			</div>
-        <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
+	
+	<div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
 		<div class="row">
         <div class="col-sm-6">
-		<form class="form-vertical" action="login.php" method="POST">
-		<div class="form-group">
-		<label class="control-label col-sm-4" for="email">Email: </label>
-			<div class="col-sm-8">
-			<input type="email" class="form-control" id = "email" name="email" placeholder="Enter email">
-			</div>
-		</div>
-		<div class="form-group">
-		<label class="control-label col-sm-4" for="password">Password: </label>
-			<div class="col-sm-8"> 
-			<input type="password" class="form-control" id = "password" name="password" placeholder="Enter password">
-			</div>
-		</div>
-		<div class="form-group"> 
-		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn-submit">Submit</button>
+	<form class="form-horizontal" action= "register.php" method="POST">
+	<div class="form-group">
+    <label class="control-label col-sm-4" for="fname">First Name:</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id = "fname" name="fname" placeholder="Enter your first name">
     </div>
   </div>
-</form>
-</div>
-</div>
-</div>
-</div>
-
+  <div class="form-group">
+    <label class="control-label col-sm-4" for="lname">Last Name:</label>
+    <div class="col-sm-8"> 
+      <input type="text" class="form-control" id = "lname" name="lname" placeholder="Enter your last name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-4" for = "email">Email: </label>
+    <div class="col-sm-8">
+      <input type= "email" class= "form-control" id = "email" name= "email" placeholder="Enter email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-4" for = "password">Password: </label>
+    <div class="col-sm-8"> 
+      <input type= "password" class= "form-control" id = "password" name= "password" placeholder="Enter password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Confirm Password: </label>
+    <div class="col-sm-8"> 
+      <input type= "password" class= "form-control" name= "confirm_password" placeholder="Confirm password">
+    </div>
+  </div>
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-submit">Submit</button>
+    </div>
+  </div>
+	</form>
+	</div>
+	</div>
+	</div>
 </section>
 
   <footer id="footer">
     <div class="footer-top wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
       <div class="container text-center">
         <div class="footer-logo">
-          <a href="index.php#allmusic"><img class="img-responsive" src="images/logo.png" alt=""></a>
+          <a href="index.php"><img class="img-responsive" src="images/logo.png" alt=""></a>
         </div>
         <div class="social-icons">
           <ul>
@@ -178,3 +203,4 @@ endif;
 
 </body>
 </html>
+

@@ -1,5 +1,5 @@
 <?php
-require 'database.php';
+require '../../../database.php';
 try{
     $sql1 = 'SELECT *
              FROM property_image
@@ -33,62 +33,63 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
 
 
 ?>
+    <div class="container col-6">
+        <?php foreach ($properties as $property) {
 
-<div class="col-6">
-    <?php foreach ($properties as $property) {
-
-        //find out the number of images needed to display in the thumbnails section
-        $thumbnails =0 ;
-        foreach($images as $image) {
-            if ($image['property_id'] == $property['property_id'] && $image['main'] != '1') {
-                $thumbnails++;
+            //find out the number of images needed to display in the thumbnails section
+            $thumbnails =0 ;
+            foreach($images as $image) {
+                if ($image['property_id'] == $property['property_id'] && $image['main'] != '1') {
+                    $thumbnails++;
+                }
             }
-        }
-        ?>
-    <div class = "row" id="<?=$property['property_id']?>">
-        <div class= "gallery fade">
-            <div class = "row">
-                <div class="galleryHead">Our top listings</div>
-            </div>
-            <div class = "row">
-                <div class = "col-2" style ="float:left">
-                <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
+            ?>
+        <div class = "row" id="<?=$property['property_id']?>">
+            <div class= "gallery fade">
+                <div class = "row">
+                    <div class="galleryHead">Our top listings</div>
                 </div>
-                <div class ="col-8">
-                    <?php
+                <div class = "row">
+                    <div class = "col-2" style ="float:left">
+                    <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
+                    </div>
+                    <div class ="col-8">
+                        <?php
 
-                        foreach($images as $image)  {
-                            if($image['property_id'] == $property['property_id'] && $image['main'] == '1' ) { ?>
-                            <img src="<?=$image['image_url']?>" style="width:100%">
+                            foreach($images as $image)  {
+                                if($image['property_id'] == $property['property_id'] && $image['main'] == '1' ) { ?>
+                                <img src="<?=$image['image_url']?>" style="width:100%">
+                                <?php  } ?>
                             <?php  } ?>
+                    </div>
+                    <div class = "col-2" style = "float:right">
+                    <a class="next" onclick="nextSlide(1)">&#10095;</a>
+                    </div>
+                </div>
+                <div class = "row">
+
+                    <?php
+                    foreach($images as $image)  {
+                        if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
+
+                            <a href ="<?=$image['image_url']?>">
+                                <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;max-height:<?=100/$thumbnails?>%">
+                            </a>
+
                         <?php  } ?>
-                </div>
-                <div class = "col-2" style = "float:right">
-                <a class="next" onclick="nextSlide(1)">&#10095;</a>
-                </div>
-            </div>
-            <div class = "row">
-
-                <?php
-                foreach($images as $image)  {
-                    if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
-
-                        <a href ="<?=$image['image_url']?>">
-                            <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;max-height:<?=100/$thumbnails?>%">
-                        </a>
-
                     <?php  } ?>
-                <?php  } ?>
+
+                </div>
+                <div class = "row">
+                    <div class="galleryText"><?=$property['description']?></div>
+                    <div class = "galleryText">Price: <?=$property['price']?>&pound
+                    <?php if ($property['type' ]== 'rent') {echo 'PCM.'; } else {echo '.';} ?></div>
+                </div>
 
             </div>
-            <div class = "row">
-                <div class="galleryText"><?=$property['description']?></div>
-                <div class = "galleryText">Price: <?=$property['price']?>&pound</div>
-            </div>
+         </div>
+        <?php } ?>
+    </div>
 
-        </div>
-     </div>
-    <?php } ?>
-</div>
 
 
