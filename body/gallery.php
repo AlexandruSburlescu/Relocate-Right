@@ -1,5 +1,5 @@
 <?php
-require '../../../database.php';
+require 'users/database.php';
 try{
     $sql1 = 'SELECT *
              FROM property_image
@@ -28,12 +28,12 @@ catch(Exception $e)
     die($e);
 }
 
-if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings database is empty. Please star at least one.';}
+if (count($properties) == 0 ) {$_SESSION['message'] = 'There are no listings to display.';}
 
 
 
 ?>
-    <div class="container col-6">
+    <div class="col-6 container">
         <?php foreach ($properties as $property) {
 
             //find out the number of images needed to display in the thumbnails section
@@ -67,7 +67,6 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
                     </div>
                 </div>
                 <div class = "row">
-
                     <?php
                     foreach($images as $image)  {
                         if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
@@ -85,7 +84,6 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'Your star buildings datab
                     <div class = "galleryText">Price: <?=$property['price']?>&pound
                     <?php if ($property['type' ]== 'rent') {echo 'PCM.'; } else {echo '.';} ?></div>
                 </div>
-
             </div>
          </div>
         <?php } ?>

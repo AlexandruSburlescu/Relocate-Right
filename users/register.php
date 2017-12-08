@@ -48,11 +48,16 @@ if (!empty($_POST['password'])&& !empty($_POST['confirm_password']) ) {
 
     endif;
 }
+require '../header.php';
 ?>
-
+<div class = "row">
+<?php
+require '../body/left-reel.php';
+?>
 <div class = "container col-6">
-    <div class="row">
-            <form class="form-horizontal" action= "<?=$_SERVER["PHP_SELF"]?> method="POST">
+    <div class="row login">
+        <div class="data-form">
+            <form class="form-vertical" action= "<?=$_SERVER["PHP_SELF"]?> method="POST">
                 <div class="form-group">
                     <label class="control-label col-4" for="fname">First Name:</label>
                     <div class="col-8">
@@ -92,3 +97,10 @@ if (!empty($_POST['password'])&& !empty($_POST['confirm_password']) ) {
         </div>
     </div>
 </div>
+<?php
+require '../body/right-reel.php';
+?>
+</div>
+<?php
+require '../footer.php';
+?>
