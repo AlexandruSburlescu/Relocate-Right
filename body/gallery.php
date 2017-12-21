@@ -33,7 +33,7 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'There are no listings to 
 
 
 ?>
-    <div class="col-6 container">
+    <div class="col-6 col-sm12 container">
         <?php foreach ($properties as $property) {
 
             //find out the number of images needed to display in the thumbnails section
@@ -50,19 +50,19 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'There are no listings to 
                     <div class="galleryHead">Our top listings</div>
                 </div>
                 <div class = "row">
-                    <div class = "col-2" style ="float:left">
+                    <div class = "col-2 col-sm2" style ="float:left">
                     <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
                     </div>
-                    <div class ="col-8">
+                    <div class ="col-8 col-sm8">
                         <?php
 
                             foreach($images as $image)  {
                                 if($image['property_id'] == $property['property_id'] && $image['main'] == '1' ) { ?>
-                                <img src="<?=$image['image_url']?>" style="width:100%">
+                                <img src="<?=$image['image_url']?>" onclick="window.open(this.src)" style="width:100%">
                                 <?php  } ?>
                             <?php  } ?>
                     </div>
-                    <div class = "col-2" style = "float:right">
+                    <div class = "col-2 col-sm2" style = "float:right">
                     <a class="next" onclick="nextSlide(1)">&#10095;</a>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'There are no listings to 
                         if($image['property_id'] == $property['property_id'] && $image['main'] != '1' ) { ?>
 
                             <a href ="<?=$image['image_url']?>">
-                                <img src="<?=$image['image_url']?>" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;max-height:<?=100/$thumbnails?>%">
+                                <img src="<?=$image['image_url']?>" onclick="window.open(this.src)" style="float:left;padding:10px;width:<?=100/$thumbnails?>%;max-height:<?=100/$thumbnails?>%">
                             </a>
 
                         <?php  } ?>
@@ -80,8 +80,10 @@ if (count($properties) == 0 ) {$_SESSION['message'] = 'There are no listings to 
 
                 </div>
                 <div class = "row">
+                    <div class="galleryText">Address: <?=$property['address']?>
+                     | <?=$property['postcode']?> | No. of rooms: <?=$property['rooms']?></div>
                     <div class="galleryText"><?=$property['description']?></div>
-                    <div class = "galleryText">Price: <?=$property['price']?>&pound
+                    <div class = "galleryText">Price: &pound<?=$property['price']?>
                     <?php if ($property['type' ]== 'rent') {echo 'PCM.'; } else {echo '.';} ?></div>
                 </div>
             </div>

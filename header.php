@@ -1,9 +1,10 @@
 <?php
-
 require 'users/database.php';
-
+if(!isset($_SESSION))
+{
+    session_start();
+}
 $user = NULL;
-session_start();
 if( isset($_SESSION['user_id']) ) {
 
     $sql = 'SELECT * FROM users WHERE user_id = :id';
@@ -27,34 +28,32 @@ if( isset($_SESSION['user_id']) ) {
     <link href="https://fonts.googleapis.com/css?family=Lato|Montserrat|Open+Sans|Roboto" rel="stylesheet">
 </head>
 <body>
+<?php require('body/front-page.php'); ?>
 <header>
     <div class="header container">
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 col-sm3">
                 <div class="logo-text" id="logo-pic">
-                    <img src="/img/logo.png"  alt="Logo" id="logo">
+                    <a href="/index.php" id="home-button" ><img src="/img/logo.png"  alt="Logo" id="logo"></a>
                 </div>
             </div>
-            <div class ="col-9">
+            <div class ="col-9 col-sm9">
                 <label for="left-menu"></label>
-                    <div id ="left-menu">
+                    <div class = "left-menu" id = "left-menu">
                         <ul>
-                            <li><a href="/index.php" class="button">Home</a></li>
                             <?php
-                            if( !isset($_SESSION['user_id']) ){
-                                echo '
-                                      <li><a href="/listings/buy.php" class="button">Buy</a></li>                                 
-                                      <li><a href="/listings/rent.php" class="button">Rent</a></li>
-                                      <li><a href="/about.php" class="button">About</a></li>  
-                                       <li><a href="/users/register.php" class="button">Register</a></li>
+                            if(empty($_SESSION['user_id']) ){
+                                echo '                                    
+                                       <li><a href="/about.php" class="button" id="about-button">About</a></li>                                         
                                       ';
                             }
                             else {
                                 echo ' 
-                                      <li><a href="/listings/rent.php" class="button">Rent</a></li>
-                                      <li><a href="/listings/sell.php" class="button">Sell</a></li>
-                                      <li><a href="/listings/buy.php" class="button">Buy</a></li>   
-                                      <li><a href="/about.php" class="button">About</a></li>                                                          
+                                      <li><a href="/listings/rent.php" class="button">Rent</a></li>                                      
+                                      <li><a href="/listings/buy.php" class="button">Buy</a></li>
+                                      <li><a href="/listings/sell.php" class="button">Sell</a></li>   
+                                      <li><a href="/about.php" class="button">About</a></li>    
+                                      <li><a href="/users/logout.php" class="button" id="logout-button">Logout</a></li>                                                                                  
                                  ';
 
                             }?>
@@ -62,9 +61,6 @@ if( isset($_SESSION['user_id']) ) {
                         </ul>
                     </div>
             </div>
-
-
-            </div>
-
+        </div>
     </div>
 </header>

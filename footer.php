@@ -1,15 +1,8 @@
-<footer class = "container">
+<footer class = "container col-sm12">
     <div class="footer">
         <div class="row">
-            <div class="left-menu text-center col-3 fade">
+            <div class="left-menu text-center col-3 col-sm6 fade">
                 <h2>Relocate right  - &copy 2017</h2>
-            </div>
-            <div class ="left-menu text-center col-9 fade">
-                <table id = "details">
-                    <tr><strong> Telephone:</strong>+44 (0) 11 9999 9999</tr>
-                    <tr><strong> Email:</strong> staff@relocateright.co.uk</tr>
-                    <tr><strong> Opening Times:</strong> Mon - Fri: 9.00 - 17.00</tr>
-                </table>
             </div>
         </div>
     </div>
